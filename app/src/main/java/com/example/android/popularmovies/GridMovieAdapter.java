@@ -36,9 +36,9 @@ public class GridMovieAdapter extends RecyclerView.Adapter<GridMovieAdapter.Grid
     @Override
     public void onBindViewHolder(GridMovieHolder gridMovieHolder, int position) {
         Movie movie = movieGrid.get(position);
-
         gridMovieHolder.posterTitle.setText(movie.getTitle());
-        gridMovieHolder.posterImage.setImageURI(Uri.parse(movie.getPosterPath()));
+        //gridMovieHolder.posterImage.setImageURI(Uri.parse(movie.getPosterPath()));
+        gridMovieHolder.posterImage.setImageDrawable(movie.getFakeMoviePoster());
     }
 
     @Override

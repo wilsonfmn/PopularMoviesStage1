@@ -1,5 +1,7 @@
 package com.example.android.popularmovies;
 
+import android.graphics.drawable.Drawable;
+
 import java.io.Serializable;
 
 /**
@@ -17,6 +19,7 @@ public class Movie implements Serializable {
     private int voteAVG;
     private int voteCount;
     private String releaseDate;
+    private Drawable fakeMoviePoster;
 
     public int getMovieId() {
         return this.movieId;
@@ -88,6 +91,14 @@ public class Movie implements Serializable {
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    public Drawable getFakeMoviePoster() {
+        return this.fakeMoviePoster;
+    }
+
+    public void setFakeMoviePoster(Drawable fakePoster) {
+        this.fakeMoviePoster = fakePoster;
     }
 
 }
