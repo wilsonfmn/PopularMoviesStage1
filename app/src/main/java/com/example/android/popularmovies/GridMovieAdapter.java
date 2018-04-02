@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.model.Movie;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -38,7 +39,8 @@ public class GridMovieAdapter extends RecyclerView.Adapter<GridMovieAdapter.Grid
         Movie movie = movieGrid.get(position);
         gridMovieHolder.posterTitle.setText(movie.getTitle());
         gridMovieHolder.posterImage.setImageURI(Uri.parse(movie.getPosterPath()));
-        gridMovieHolder.posterImage.setImageDrawable(movie.getFakeMoviePoster());
+        //gridMovieHolder.posterImage.setImageDrawable(movie.getFakeMoviePoster());
+        Picasso.get().load(Uri.parse(movie.getPosterPath())).into(gridMovieHolder.posterImage);
     }
 
     @Override

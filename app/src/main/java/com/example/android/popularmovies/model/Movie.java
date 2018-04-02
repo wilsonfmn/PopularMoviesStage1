@@ -54,7 +54,7 @@ public class Movie implements Serializable {
     }
 
     public String getPosterPath() {
-        return this.posterPath;
+        return "https://image.tmdb.org/t/p/w185/" + this.posterPath;
     }
 
     public void setPosterPath(String posterPath) {

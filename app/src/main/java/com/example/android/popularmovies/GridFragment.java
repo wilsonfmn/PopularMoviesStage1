@@ -198,7 +198,7 @@ public class GridFragment extends Fragment {
                 gridAdapter = new GridMovieAdapter(movies);
 
                 // inicializando o GridLayouManager com a list de filmes
-                layoutManager = new GridLayoutManager(getActivity(), movies.size());
+                layoutManager = new GridLayoutManager(getActivity(), 2);
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(gridAdapter);
             }
