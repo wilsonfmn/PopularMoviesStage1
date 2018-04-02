@@ -1,6 +1,5 @@
 package com.example.android.popularmovies;
 
-import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,7 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.example.android.popularmovies.model.Movie;
+
 import java.util.List;
 
 /**
@@ -37,7 +37,7 @@ public class GridMovieAdapter extends RecyclerView.Adapter<GridMovieAdapter.Grid
     public void onBindViewHolder(GridMovieHolder gridMovieHolder, int position) {
         Movie movie = movieGrid.get(position);
         gridMovieHolder.posterTitle.setText(movie.getTitle());
-        //gridMovieHolder.posterImage.setImageURI(Uri.parse(movie.getPosterPath()));
+        gridMovieHolder.posterImage.setImageURI(Uri.parse(movie.getPosterPath()));
         gridMovieHolder.posterImage.setImageDrawable(movie.getFakeMoviePoster());
     }
 

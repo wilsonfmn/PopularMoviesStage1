@@ -1,4 +1,4 @@
-package com.example.android.popularmovies;
+package com.example.android.popularmovies.model;
 
 import android.graphics.drawable.Drawable;
 
@@ -16,7 +16,7 @@ public class Movie implements Serializable {
     private String overview;
     private String posterPath;
     private double popularity;
-    private int voteAVG;
+    private double voteAVG;
     private int voteCount;
     private String releaseDate;
     private Drawable fakeMoviePoster;
@@ -69,11 +69,11 @@ public class Movie implements Serializable {
         this.popularity = popularity;
     }
 
-    public int getVoteAVG() {
+    public double getVoteAVG() {
         return this.voteAVG;
     }
 
-    public void setVoteAVG(int voteAVG) {
+    public void setVoteAVG(double voteAVG) {
         this.voteAVG = voteAVG;
     }
 
