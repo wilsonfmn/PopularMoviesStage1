@@ -39,7 +39,6 @@ public class GridMovieAdapter extends RecyclerView.Adapter<GridMovieAdapter.Grid
         Movie movie = movieGrid.get(position);
         gridMovieHolder.posterTitle.setText(movie.getTitle());
         gridMovieHolder.posterImage.setImageURI(Uri.parse(movie.getPosterPath()));
-        //gridMovieHolder.posterImage.setImageDrawable(movie.getFakeMoviePoster());
         Picasso.get().load(Uri.parse(movie.getPosterPath())).into(gridMovieHolder.posterImage);
     }
 

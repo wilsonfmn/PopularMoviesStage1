@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Popular Movies</string>
     <string name="no_internet_access">No internet connection. Please, reconnect and try again.</string>
+    <string name="key_themoviedb">45aad344f67aedcb3268369df57eee86</string>
 </resources>

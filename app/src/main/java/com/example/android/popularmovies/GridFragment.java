@@ -1,6 +1,5 @@
 package com.example.android.popularmovies;
 
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -38,12 +37,10 @@ import java.util.List;
 public class GridFragment extends Fragment {
 
     private static final String TAG = GridFragment.class.getSimpleName();
-    private static final String KEY_LAYOUT_MANAGER = "layoutManager";
 
     protected RecyclerView recyclerView;
     protected GridMovieAdapter gridAdapter;
     protected RecyclerView.LayoutManager layoutManager;
-    protected List<Movie> movieList;
 
     public GridFragment() {
         // construtor vazio para ser instanciado automaticamente
@@ -55,27 +52,11 @@ public class GridFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_grid, container, false);
         rootView.setTag(TAG);
 
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.movie_grid);
+        recyclerView = rootView.findViewById(R.id.movie_grid);
 
-        // criando e populando a lista de filmes
-        //List<Movie> movieList = generateFodderMovies();
-
-        MovieFetcherAsyncTask movieFetchTask = new MovieFetcherAsyncTask();
+        String apiKey = getResources().getString(R.string.key_themoviedb);
+        MovieFetcherAsyncTask movieFetchTask = new MovieFetcherAsyncTask(apiKey);
         movieFetchTask.execute();
-
-        // Setando adapter
-        //gridAdapter = new GridMovieAdapter(movieList);
-
-        // inicializando o GridLayouManager com a list de filmes
-        //layoutManager = new GridLayoutManager(getActivity(), movieList.size());
-        //recyclerView.setLayoutManager(layoutManager);
-        //recyclerView.setAdapter(gridAdapter);
-
-        //RecyclerView recList = (RecyclerView) container.findViewById(R.id.movie_grid);
-        //recList.setHasFixedSize(true);
-        //LinearLayoutManager llm = new LinearLayoutManager(container.getContext());
-        //llm.setOrientation(LinearLayoutManager.VERTICAL);
-        //recList.setLayoutManager(llm);
 
         return rootView;
     }
@@ -91,11 +72,11 @@ public class GridFragment extends Fragment {
      */
     private void getMoviesFromTMDb(String sortMethod) {
         if (isNetworkAvailable()) {
-            // Key needed to get data from TMDb
-            //String apiKey = getString(R.string.key_themoviedb);
+            // Recupera a chave para pergar dados do TMDb
+            String apiKey = getString(R.string.key_themoviedb);
 
-            // Execute task
-            MovieFetcherAsyncTask movieTask = new MovieFetcherAsyncTask();
+            // Chamada da AsyncTask para recuperar os dados
+            MovieFetcherAsyncTask movieTask = new MovieFetcherAsyncTask(apiKey);
             movieTask.execute(sortMethod);
         } else {
             Toast.makeText(getContext(), getString(R.string.no_internet_access), Toast.LENGTH_LONG).show();
@@ -103,10 +84,9 @@ public class GridFragment extends Fragment {
     }
 
     /**
-     * Checks if there is Internet accessible.
-     * Based on a stackoverflow snippet
+     * Verifica se há conexão à internet
      *
-     * @return True if there is Internet. False if not.
+     * @return True se há conexão, false caso contrário.
      */
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
@@ -122,18 +102,24 @@ public class GridFragment extends Fragment {
      */
     public class MovieFetcherAsyncTask extends AsyncTask<String, Void, List<Movie>> {
 
+        private String movieAPIKey;
+
+        public MovieFetcherAsyncTask(String apiKey) {
+            super();
+            this.movieAPIKey = apiKey;
+        }
+
         @Override
         protected List<Movie> doInBackground(String... strings) {
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
 
-            String movieJsonStr = null;
+            String movieJsonStr;
 
             try {
                 // Criando a URL de acesso à API de filmes
                 String[] urlParameters = new String[2];
                 urlParameters[0] = "popularity.desc";
-                urlParameters[1] = "45aad344f67aedcb3268369df57eee86";
                 URL url = getApiUrl(urlParameters);
 
                 // Abre a coneção com a API
@@ -211,7 +197,7 @@ public class GridFragment extends Fragment {
 
             Uri builtUri = Uri.parse(TMDB_BASE_URL).buildUpon()
                     .appendQueryParameter(SORT_BY_PARAM, parameters[0])
-                    .appendQueryParameter(API_KEY_PARAM, parameters[1])
+                    .appendQueryParameter(API_KEY_PARAM, this.movieAPIKey)
                     .build();
 
             return new URL(builtUri.toString());
@@ -234,7 +220,7 @@ public class GridFragment extends Fragment {
             JSONArray resultsArray = moviesJson.getJSONArray(TAG_RESULTS);
 
             // Criando a lista de Movies a ser devolvida
-            List<Movie> movieList = new ArrayList<Movie>();
+            List<Movie> movieList = new ArrayList<>();
 
             //Percorre o arrayJSON e popula os dados extraídos
             for (int i = 0; i < resultsArray.length(); i++) {
