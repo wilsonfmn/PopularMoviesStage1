@@ -4,51 +4,83 @@
     android:layout_height="match_parent"
     android:id="@+id/detail_fragment">
 
-    <ImageView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/poster_detail_view"/>
+        android:minHeight="200dp"
+        android:orientation="horizontal"
+        android:weightSum="5">
 
-    <!-- Release Date Title -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/poster_detail_view"
+            android:layout_weight="3"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <!-- Title -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/title_text"
+                android:textStyle="bold"
+                android:textSize="@dimen/font_heading_size"/>
+
+            <!-- Release Date Heading -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/release_date_heading"
+                android:textSize="@dimen/font_heading_size"
+                android:textStyle="bold"
+                android:text="@string/release_date_title"/>
+
+            <!-- Release Date -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/release_date_text"
+                android:textSize="@dimen/text_size_body"/>
+
+            <!-- Vote Avg Heading -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/vote_avg_heading"
+                android:textSize="@dimen/font_heading_size"
+                android:textStyle="bold"
+                android:text="@string/vote_avg_heading"/>
+
+            <!-- Vote Avg -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/vote_avg_text"
+                android:textSize="@dimen/text_size_body"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Overview Heading -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/release_date_title"/>
-
-    <!-- Release Date -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/release_date_text"/>
-
-    <!-- Rating Title -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/rating_title"/>
-
-    <!-- Rating -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/rating_text"/>
-
-    <!-- Title -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/title_text"/>
-
-    <!-- Overview Title -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/overview_title"/>
+        android:id="@+id/overview_title"
+        android:textSize="@dimen/font_heading_size"
+        android:textStyle="bold"
+        android:text="@string/overview_heading"/>
 
     <!-- Overview -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/overview_text"/>
+        android:id="@+id/overview_text"
+        android:textSize="@dimen/text_size_body"/>
 
 </LinearLayout>

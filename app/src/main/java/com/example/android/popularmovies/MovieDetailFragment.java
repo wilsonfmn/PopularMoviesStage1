@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.android.popularmovies.model.Movie;
 import com.squareup.picasso.Picasso;
@@ -22,10 +23,10 @@ public class MovieDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstances) {
         // Com inflate eu consigo montar a hierarquia de layout
-        View rootView = inflater.inflate(R.layout.detail_body_fragment, container, false);
-        rootView.setTag(TAG);
+        View linearView = inflater.inflate(R.layout.detail_body_fragment, container, false);
+        linearView.setTag(TAG);
 
-        ImageView posterView = rootView.findViewById(R.id.poster_detail_view);
+        ImageView posterView = linearView.findViewById(R.id.poster_detail_view);
 
         Intent intent = getActivity().getIntent();
         Movie movie = (Movie) intent.getParcelableExtra(getString(R.string.movie_parameter));
@@ -38,7 +39,19 @@ public class MovieDetailFragment extends Fragment {
                 .placeholder(R.drawable.loading_icon)
                 .into(posterView);
 
-        return rootView;
+        TextView releaseDateView = linearView.findViewById(R.id.release_date_text);
+        releaseDateView.setText(movie.getReleaseDate());
+
+        TextView ratingView = linearView.findViewById(R.id.vote_avg_text);
+        ratingView.setText(String.valueOf(movie.getVoteAVG()));
+
+        TextView overviewView = linearView.findViewById(R.id.overview_text);
+        overviewView.setText(movie.getOverview());
+
+        TextView titleView = linearView.findViewById(R.id.title_text);
+        titleView.setText(movie.getTitle());
+
+        return linearView;
     }
 
 }

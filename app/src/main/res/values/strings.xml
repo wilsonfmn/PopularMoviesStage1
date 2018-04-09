@@ -7,7 +7,7 @@
     <string name="key_themoviedb">45aad344f67aedcb3268369df57eee86</string>
 
     <string name="release_date_title">Release Date</string>
-    <string name="rating_title">Rating</string>
-    <string name="overview_title">Overview</string>
+    <string name="vote_avg_heading">Rating</string>
+    <string name="overview_heading">Overview</string>
 
 </resources>

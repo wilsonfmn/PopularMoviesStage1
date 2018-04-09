@@ -211,6 +211,7 @@ public class GridFragment extends Fragment {
             final String TAG_TITLE = "title";
             final String TAG_VOTE_AVG = "vote_average";
             final String TAG_VOTE_COUNT = "vote_count";
+            final String TAG_POPULARITY = "popularity";
 
             // Pegando o arrayJson que contém as informações recebidas
             JSONObject moviesJson = new JSONObject(moviesListJson);
@@ -234,6 +235,7 @@ public class GridFragment extends Fragment {
                 movieSample.setVoteAVG(movieInfo.getDouble(TAG_VOTE_AVG));
                 movieSample.setVoteCount(movieInfo.getInt(TAG_VOTE_COUNT));
                 movieSample.setReleaseDate(movieInfo.getString(TAG_RELEASE_DATE));
+                movieSample.setPopularity(movieInfo.getDouble(TAG_POPULARITY));
 
                 movieList.add(movieSample);
             }
