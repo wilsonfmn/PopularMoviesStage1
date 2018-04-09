@@ -1,5 +1,6 @@
 package com.example.android.popularmovies;
 
+import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.popularmovies.model.Movie;
 import com.squareup.picasso.Picasso;
@@ -23,7 +25,7 @@ import java.util.List;
  */
 public class GridMovieAdapter extends RecyclerView.Adapter<GridMovieAdapter.GridMovieHolder> {
 
-    List<Movie> movieGrid;
+    private List<Movie> movieGrid;
 
     public GridMovieAdapter(List<Movie> movieList) {
         this.movieGrid = movieList;
@@ -39,7 +41,16 @@ public class GridMovieAdapter extends RecyclerView.Adapter<GridMovieAdapter.Grid
         Movie movie = movieGrid.get(position);
         gridMovieHolder.posterTitle.setText(movie.getTitle());
         gridMovieHolder.posterImage.setImageURI(Uri.parse(movie.getPosterPath()));
-        Picasso.get().load(Uri.parse(movie.getPosterPath())).into(gridMovieHolder.posterImage);
+
+        // Carrego as imagens com o Picasso, colocando uma renderização de loading e de erro
+        Context context = gridMovieHolder.getContext();
+        Picasso.get()
+                .load(movie.getPosterPath())
+                .resize(context.getResources().getInteger(R.integer.posterWidth),
+                        context.getResources().getInteger(R.integer.posterHeight))
+                .error(R.drawable.image_not_found)
+                .placeholder(R.drawable.loading_icon)
+                .into(gridMovieHolder.posterImage);
     }
 
     @Override
@@ -59,8 +70,28 @@ public class GridMovieAdapter extends RecyclerView.Adapter<GridMovieAdapter.Grid
             super(view);
             posterImage = (ImageView) view.findViewById(R.id.poster_image_id);
             posterTitle = (TextView) view.findViewById(R.id.poster_label_id);
+            view.setOnClickListener(new ImageView.OnClickListener(){
+                @Override
+                public void onClick(View view) {
+                    TextView posterView = view.findViewById(R.id.poster_label_id);
+                    Toast.makeText(view.getContext(), posterView.getText(), Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
+        public Context getContext() {
+            return posterTitle.getContext();
+        }
+
+    }
+
+    /**
+     * Recupera o item da lista de filmes
+     * @param position a posição do item a ser retornado
+     * @return o filme selecionado
+     */
+    public Movie getItem(int position) {
+        return this.movieGrid.get(position);
     }
 
 }
