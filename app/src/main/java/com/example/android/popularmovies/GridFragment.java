@@ -54,10 +54,7 @@ public class GridFragment extends Fragment {
 
         recyclerView = rootView.findViewById(R.id.movie_grid);
 
-        String apiKey = getResources().getString(R.string.key_themoviedb);
-        MovieFetcherAsyncTask movieFetchTask = new MovieFetcherAsyncTask(apiKey);
-        movieFetchTask.execute();
-
+        this.getMoviesFromTMDb("");
         return rootView;
     }
 

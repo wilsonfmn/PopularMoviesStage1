@@ -1,6 +1,7 @@
 package com.example.android.popularmovies;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -41,6 +42,7 @@ public class GridMovieAdapter extends RecyclerView.Adapter<GridMovieAdapter.Grid
         Movie movie = movieGrid.get(position);
         gridMovieHolder.posterTitle.setText(movie.getTitle());
         gridMovieHolder.posterImage.setImageURI(Uri.parse(movie.getPosterPath()));
+        gridMovieHolder.posterImage.setTag(movie);
 
         // Carrego as imagens com o Picasso, colocando uma renderização de loading e de erro
         Context context = gridMovieHolder.getContext();
@@ -58,7 +60,7 @@ public class GridMovieAdapter extends RecyclerView.Adapter<GridMovieAdapter.Grid
         View itemView = LayoutInflater.
                 from(viewGroup.getContext()).
                 inflate(R.layout.grid_item_movie, viewGroup, false);
-        return new GridMovieHolder(itemView);
+        return new GridMovieHolder(itemView, this.getItem(position));
     }
 
     public static class GridMovieHolder extends RecyclerView.ViewHolder {
@@ -66,15 +68,19 @@ public class GridMovieAdapter extends RecyclerView.Adapter<GridMovieAdapter.Grid
         protected ImageView posterImage;
         protected TextView posterTitle;
 
-        public GridMovieHolder(View view) {
-            super(view);
-            posterImage = (ImageView) view.findViewById(R.id.poster_image_id);
-            posterTitle = (TextView) view.findViewById(R.id.poster_label_id);
-            view.setOnClickListener(new ImageView.OnClickListener(){
-                @Override
-                public void onClick(View view) {
-                    TextView posterView = view.findViewById(R.id.poster_label_id);
-                    Toast.makeText(view.getContext(), posterView.getText(), Toast.LENGTH_SHORT).show();
+        public GridMovieHolder(View cardView, Movie movie) {
+            super(cardView);
+            posterImage = (ImageView) cardView.findViewById(R.id.poster_image_id);
+            posterTitle = (TextView) cardView.findViewById(R.id.poster_label_id);
+            cardView.setOnClickListener(new ImageView.OnClickListener(){
+                public void onClick(View cardView) {
+                    ImageView posterView = cardView.findViewById(R.id.poster_image_id);
+                    Movie selectedMovie = (Movie) posterView.getTag();
+
+                    Intent intent = new Intent(getContext(), MovieDetailActivity.class);
+                    intent.putExtra(getContext().getResources().getString(R.string.movie_parameter), selectedMovie);
+
+                    getContext().startActivity(intent);
                 }
             });
         }

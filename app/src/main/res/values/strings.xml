@@ -1,5 +1,13 @@
 <resources>
     <string name="app_name">Popular Movies</string>
+    <string name="movie_detail_activity_title">Movie Details</string>
     <string name="no_internet_access">No internet connection. Please, reconnect and try again.</string>
+    <string name="movie_parameter">MOVIE_PARAMETER</string>
+
     <string name="key_themoviedb">45aad344f67aedcb3268369df57eee86</string>
+
+    <string name="release_date_title">Release Date</string>
+    <string name="rating_title">Rating</string>
+    <string name="overview_title">Overview</string>
+
 </resources>

@@ -1,6 +1,8 @@
 package com.example.android.popularmovies.model;
 
 import android.graphics.drawable.Drawable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.io.Serializable;
 
@@ -8,7 +10,7 @@ import java.io.Serializable;
  * Created by willf on 25/03/2018.
  */
 
-public class Movie implements Serializable {
+public class Movie implements Parcelable {
 
     private int movieId;
     private String originalTitle;
@@ -20,6 +22,34 @@ public class Movie implements Serializable {
     private int voteCount;
     private String releaseDate;
     private Drawable fakeMoviePoster;
+
+    public Movie() {
+        // nada
+    }
+
+    protected Movie(Parcel in) {
+        movieId = in.readInt();
+        originalTitle = in.readString();
+        title = in.readString();
+        overview = in.readString();
+        posterPath = in.readString();
+        popularity = in.readDouble();
+        voteAVG = in.readDouble();
+        voteCount = in.readInt();
+        releaseDate = in.readString();
+    }
+
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
 
     public int getMovieId() {
         return this.movieId;
@@ -101,4 +131,21 @@ public class Movie implements Serializable {
         this.fakeMoviePoster = fakePoster;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(movieId);
+        dest.writeString(originalTitle);
+        dest.writeString(title);
+        dest.writeString(overview);
+        dest.writeString(posterPath);
+        dest.writeDouble(popularity);
+        dest.writeDouble(voteAVG);
+        dest.writeInt(voteCount);
+        dest.writeString(releaseDate);
+    }
 }
