@@ -50,8 +50,6 @@ public class GridMovieAdapter extends RecyclerView.Adapter<GridMovieAdapter.Grid
                 .load(movie.getPosterPath())
                 .resize(context.getResources().getInteger(R.integer.posterWidth),
                         context.getResources().getInteger(R.integer.posterHeight))
-                .error(R.drawable.image_not_found)
-                .placeholder(R.drawable.loading_icon)
                 .into(gridMovieHolder.posterImage);
     }
 

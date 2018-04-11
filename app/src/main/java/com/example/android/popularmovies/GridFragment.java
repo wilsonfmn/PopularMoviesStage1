@@ -1,15 +1,21 @@
 package com.example.android.popularmovies;
 
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -48,24 +54,51 @@ public class GridFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstances) {
+        // Aviso que tenho um menu de opções a ser acrescentado
+        setHasOptionsMenu(true);
+
         // Com inflate eu consigo montar a hierarquia de layout
         View rootView = inflater.inflate(R.layout.fragment_grid, container, false);
         rootView.setTag(TAG);
 
         recyclerView = rootView.findViewById(R.id.movie_grid);
 
-        this.getMoviesFromTMDb("");
+        // verifica se as preferências (de sort) já foram salvas
+        this.getMoviesFromTMDb(getSortingPref());
+
         return rootView;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_grid_frag, menu);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //case para avaliar qual opção selecionada
+        switch (item.getItemId()) {
+            case R.id.sort_popularity:
+                // atualiza a preferência de ordenação do usuário
+                updateSharedPrefs(getString(R.string.sort_by_pop));
+                // atualiza a view
+                getMoviesFromTMDb(getSortingPref());
+                return true;
+            case R.id.sort_rating:
+                updateSharedPrefs(getString(R.string.sort_by_vote_avg));
+                getMoviesFromTMDb(getSortingPref());
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     /**
-     * If device has Internet the magic happens when app launches. The app will start the process
-     * of collecting data from the API and present it to the user.
-     * <p/>
-     * If the device has no connectivity it will display a Toast explaining that app needs
-     * Internet to work properly.
+     * Verifica se há conexão com a internet e executa a chamada à API do TMDb.
+     * Caso não haja conexão, exibe um Toast para o usuário informando.
      *
-     * @param sortMethod tmdb API method for sorting movies
+     * @param sortMethod o tipo de ordenação a ser utilizado (popularity ou user-rating)
      */
     private void getMoviesFromTMDb(String sortMethod) {
         if (isNetworkAvailable()) {
@@ -94,6 +127,29 @@ public class GridFragment extends Fragment {
     }
 
     /**
+     * Retorna o método de ordenação da lista de filmes. Se o usuário
+     * não tiver escolhido nenhum, retorna o padrão: popularidade.
+     * @return O método de ordenação
+     */
+    private String getSortingPref() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+        return prefs.getString(getString(R.string.pref_sort_method),
+                getString(R.string.sort_by_pop));
+    }
+
+    /**
+     * Salva o método de Sort escolhido pelo usuário
+     * @param sortingMethod O método de ordenação escolhido
+     */
+    private void updateSharedPrefs(String sortingMethod) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(getString(R.string.pref_sort_method), sortingMethod);
+        editor.apply();
+    }
+
+    /**
      * Inner class de asynctask para realizar a busca e parser do JSON de filmes.
      * Apesar de não ser reutilizável, ela evita que haja memory leaks, ficando mais fácil de gerenciar nessa simples aplicação.
      */
@@ -107,7 +163,7 @@ public class GridFragment extends Fragment {
         }
 
         @Override
-        protected List<Movie> doInBackground(String... strings) {
+        protected List<Movie> doInBackground(String... params) {
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
 
@@ -115,9 +171,7 @@ public class GridFragment extends Fragment {
 
             try {
                 // Criando a URL de acesso à API de filmes
-                String[] urlParameters = new String[2];
-                urlParameters[0] = "popularity.desc";
-                URL url = getApiUrl(urlParameters);
+                URL url = getApiUrl(params);
 
                 // Abre a coneção com a API
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -187,6 +241,12 @@ public class GridFragment extends Fragment {
             }
         }
 
+        /**
+         * Monta a URL da API TMDb baseado no método de ordenação escolhido
+         * @param parameters parâmetros a serem usados na URL
+         * @return a URL de busca dos filme, de acordo com a ordenação escolhida
+         * @throws MalformedURLException
+         */
         private URL getApiUrl(String[] parameters) throws MalformedURLException {
             final String TMDB_BASE_URL = "https://api.themoviedb.org/3/discover/movie?";
             final String SORT_BY_PARAM = "sort_by";
@@ -200,6 +260,12 @@ public class GridFragment extends Fragment {
             return new URL(builtUri.toString());
         }
 
+        /**
+         * Transforma o JSON de filmes recebidos em entidades bem formadas
+         * @param moviesListJson A String JSON de filmes
+         * @return A lista de entidades Movie
+         * @throws JSONException
+         */
         private List<Movie> movieListJSONReader(String moviesListJson) throws JSONException {
             // JSON tags
             final String TAG_ID = "id";

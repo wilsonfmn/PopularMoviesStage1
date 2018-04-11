@@ -1,86 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/detail_fragment">
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="200dp"
-        android:orientation="horizontal"
-        android:weightSum="5">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/poster_detail_view"
-            android:layout_weight="3"/>
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:orientation="vertical">
+            android:minHeight="200dp"
+            android:orientation="horizontal"
+            android:weightSum="5">
 
-            <!-- Title -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/title_text"
-                android:textStyle="bold"
-                android:textSize="@dimen/font_heading_size"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/poster_detail_view"
+                android:layout_weight="3"/>
 
-            <!-- Release Date Heading -->
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/release_date_heading"
-                android:textSize="@dimen/font_heading_size"
-                android:textStyle="bold"
-                android:text="@string/release_date_title"/>
+                android:layout_weight="2"
+                android:orientation="vertical">
 
-            <!-- Release Date -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/release_date_text"
-                android:textSize="@dimen/text_size_body"/>
+                <!-- Title -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/title_text"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/font_heading_size"/>
 
-            <!-- Vote Avg Heading -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/vote_avg_heading"
-                android:textSize="@dimen/font_heading_size"
-                android:textStyle="bold"
-                android:text="@string/vote_avg_heading"/>
+                <!-- Release Date Heading -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/release_date_heading"
+                    android:textSize="@dimen/font_heading_size"
+                    android:textStyle="bold"
+                    android:text="@string/release_date_title"/>
 
-            <!-- Vote Avg -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/vote_avg_text"
-                android:textSize="@dimen/text_size_body"/>
+                <!-- Release Date -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/release_date_text"
+                    android:textSize="@dimen/text_size_body"/>
+
+                <!-- Vote Avg Heading -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/vote_avg_heading"
+                    android:textSize="@dimen/font_heading_size"
+                    android:textStyle="bold"
+                    android:text="@string/vote_avg_heading"/>
+
+                <!-- Vote Avg -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/vote_avg_text"
+                    android:textSize="@dimen/text_size_body"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
+        <!-- Overview Heading -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/overview_title"
+            android:textSize="@dimen/font_heading_size"
+            android:textStyle="bold"
+            android:text="@string/overview_heading"/>
+
+        <!-- Overview -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/overview_text"
+            android:textSize="@dimen/text_size_body"/>
+
     </LinearLayout>
 
-    <!-- Overview Heading -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/overview_title"
-        android:textSize="@dimen/font_heading_size"
-        android:textStyle="bold"
-        android:text="@string/overview_heading"/>
-
-    <!-- Overview -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/overview_text"
-        android:textSize="@dimen/text_size_body"/>
-
-</LinearLayout>
+</ScrollView>

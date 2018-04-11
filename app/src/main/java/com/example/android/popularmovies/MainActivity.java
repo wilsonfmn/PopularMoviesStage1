@@ -2,6 +2,7 @@ package com.example.android.popularmovies;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 
 /**
  * Tela principal do aplicativo. Aqui será inserido o Fragment contendo a listagem de filmes e também o menu de opções.
@@ -20,6 +21,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // implementar o menu de opções de sort
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflando o menu bar
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
 }

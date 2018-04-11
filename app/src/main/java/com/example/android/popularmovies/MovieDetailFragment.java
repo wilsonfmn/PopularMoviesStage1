@@ -35,8 +35,6 @@ public class MovieDetailFragment extends Fragment {
                 .load(movie.getPosterPath())
                 .resize(getResources().getInteger(R.integer.posterWidth),
                         getResources().getInteger(R.integer.posterHeight))
-                .error(R.drawable.image_not_found)
-                .placeholder(R.drawable.loading_icon)
                 .into(posterView);
 
         TextView releaseDateView = linearView.findViewById(R.id.release_date_text);

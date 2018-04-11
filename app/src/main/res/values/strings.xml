@@ -2,9 +2,16 @@
     <string name="app_name">Popular Movies</string>
     <string name="movie_detail_activity_title">Movie Details</string>
     <string name="no_internet_access">No internet connection. Please, reconnect and try again.</string>
+
+    <string name="pref_sort_method">SORT_PREF</string>
     <string name="movie_parameter">MOVIE_PARAMETER</string>
 
+    <string name="menu_sort_popularity">Sort by popularity...</string>
+    <string name="menu_sort_voteavg">Sort by Vote AVG...</string>
+
     <string name="key_themoviedb">45aad344f67aedcb3268369df57eee86</string>
+    <string name="sort_by_pop">popularity.desc</string>
+    <string name="sort_by_vote_avg">vote_average.desc</string>
 
     <string name="release_date_title">Release Date</string>
     <string name="vote_avg_heading">Rating</string>
