@@ -249,7 +249,7 @@ public class GridFragment extends Fragment {
          * #TODO implementar infinite scroll passando o número da página a ser buscada pela api
          */
         private URL getApiUrl(String[] parameters) throws MalformedURLException {
-            final String TMDB_BASE_URL = "https://api.themoviedb.org/3/discover/movie?";
+            final String TMDB_BASE_URL = getString(R.string.tmdb_base_url);
             final String SORT_BY_PARAM = "sort_by";
             final String API_KEY_PARAM = "api_key";
             final String NO_ADULTS_PARAM = "include_adult";

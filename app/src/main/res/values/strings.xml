@@ -5,6 +5,7 @@
 
     <string name="pref_sort_method">SORT_PREF</string>
     <string name="movie_parameter">MOVIE_PARAMETER</string>
+    <string name="tmdb_base_url">https://api.themoviedb.org/3/discover/movie?</string>
 
     <string name="menu_sort_popularity">Sort by popularity…</string>
     <string name="menu_sort_vote_avg">Sort by vote average…</string>
