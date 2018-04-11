@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:launchMode="singleTop"> <!-- Back Button? -->
+        android:launchMode="singleTop"
+        android:fullBackupContent="@xml/backup_descriptor"> <!-- Back Button? -->
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

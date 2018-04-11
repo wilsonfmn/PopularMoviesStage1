@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android.popularmovies.model.Movie;
 import com.squareup.picasso.Picasso;
@@ -58,18 +57,18 @@ public class GridMovieAdapter extends RecyclerView.Adapter<GridMovieAdapter.Grid
         View itemView = LayoutInflater.
                 from(viewGroup.getContext()).
                 inflate(R.layout.grid_item_movie, viewGroup, false);
-        return new GridMovieHolder(itemView, this.getItem(position));
+        return new GridMovieHolder(itemView);
     }
 
     public static class GridMovieHolder extends RecyclerView.ViewHolder {
 
-        protected ImageView posterImage;
-        protected TextView posterTitle;
+        ImageView posterImage;
+        TextView posterTitle;
 
-        public GridMovieHolder(View cardView, Movie movie) {
+        GridMovieHolder(View cardView) {
             super(cardView);
-            posterImage = (ImageView) cardView.findViewById(R.id.poster_image_id);
-            posterTitle = (TextView) cardView.findViewById(R.id.poster_label_id);
+            posterImage = cardView.findViewById(R.id.poster_image_id);
+            posterTitle = cardView.findViewById(R.id.poster_label_id);
             cardView.setOnClickListener(new ImageView.OnClickListener(){
                 public void onClick(View cardView) {
                     ImageView posterView = cardView.findViewById(R.id.poster_image_id);
@@ -83,7 +82,7 @@ public class GridMovieAdapter extends RecyclerView.Adapter<GridMovieAdapter.Grid
             });
         }
 
-        public Context getContext() {
+        Context getContext() {
             return posterTitle.getContext();
         }
 
@@ -94,7 +93,7 @@ public class GridMovieAdapter extends RecyclerView.Adapter<GridMovieAdapter.Grid
      * @param position a posição do item a ser retornado
      * @return o filme selecionado
      */
-    public Movie getItem(int position) {
+    private Movie getItem(int position) {
         return this.movieGrid.get(position);
     }
 

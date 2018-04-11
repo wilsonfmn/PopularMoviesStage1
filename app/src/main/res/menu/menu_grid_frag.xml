@@ -2,6 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/sort_popularity" android:title="@string/menu_sort_popularity"
         android:orderInCategory="1" />
-    <item android:id="@+id/sort_rating" android:title="@string/menu_sort_voteavg"
+    <item android:id="@+id/sort_rating" android:title="@string/menu_sort_vote_avg"
         android:orderInCategory="2" />
 </menu>

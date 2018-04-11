@@ -29,7 +29,7 @@ public class MovieDetailFragment extends Fragment {
         ImageView posterView = linearView.findViewById(R.id.poster_detail_view);
 
         Intent intent = getActivity().getIntent();
-        Movie movie = (Movie) intent.getParcelableExtra(getString(R.string.movie_parameter));
+        Movie movie = intent.getParcelableExtra(getString(R.string.movie_parameter));
 
         Picasso.get()
                 .load(movie.getPosterPath())

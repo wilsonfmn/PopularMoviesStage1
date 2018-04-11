@@ -1,12 +1,12 @@
 package com.example.android.popularmovies;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -44,9 +44,9 @@ public class GridFragment extends Fragment {
 
     private static final String TAG = GridFragment.class.getSimpleName();
 
-    protected RecyclerView recyclerView;
-    protected GridMovieAdapter gridAdapter;
-    protected RecyclerView.LayoutManager layoutManager;
+    private RecyclerView recyclerView;
+    private GridMovieAdapter gridAdapter;
+    private RecyclerView.LayoutManager layoutManager;
 
     public GridFragment() {
         // construtor vazio para ser instanciado automaticamente
@@ -64,7 +64,7 @@ public class GridFragment extends Fragment {
         recyclerView = rootView.findViewById(R.id.movie_grid);
 
         // verifica se as preferências (de sort) já foram salvas
-        this.getMoviesFromTMDb(getSortingPref());
+        this.getMoviesFromTMDb(getSortingPref(), 1);
 
         return rootView;
     }
@@ -83,11 +83,11 @@ public class GridFragment extends Fragment {
                 // atualiza a preferência de ordenação do usuário
                 updateSharedPrefs(getString(R.string.sort_by_pop));
                 // atualiza a view
-                getMoviesFromTMDb(getSortingPref());
+                getMoviesFromTMDb(getSortingPref(), 1);
                 return true;
             case R.id.sort_rating:
                 updateSharedPrefs(getString(R.string.sort_by_vote_avg));
-                getMoviesFromTMDb(getSortingPref());
+                getMoviesFromTMDb(getSortingPref(), 1);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -100,14 +100,14 @@ public class GridFragment extends Fragment {
      *
      * @param sortMethod o tipo de ordenação a ser utilizado (popularity ou user-rating)
      */
-    private void getMoviesFromTMDb(String sortMethod) {
+    private void getMoviesFromTMDb(String sortMethod, int pageNumber) {
         if (isNetworkAvailable()) {
             // Recupera a chave para pergar dados do TMDb
             String apiKey = getString(R.string.key_themoviedb);
 
             // Chamada da AsyncTask para recuperar os dados
             MovieFetcherAsyncTask movieTask = new MovieFetcherAsyncTask(apiKey);
-            movieTask.execute(sortMethod);
+            movieTask.execute(sortMethod, String.valueOf(pageNumber));
         } else {
             Toast.makeText(getContext(), getString(R.string.no_internet_access), Toast.LENGTH_LONG).show();
         }
@@ -120,7 +120,7 @@ public class GridFragment extends Fragment {
      */
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
-                = (ConnectivityManager) getContext().getSystemService(getContext().CONNECTIVITY_SERVICE);
+                = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
@@ -157,7 +157,7 @@ public class GridFragment extends Fragment {
 
         private String movieAPIKey;
 
-        public MovieFetcherAsyncTask(String apiKey) {
+        MovieFetcherAsyncTask(String apiKey) {
             super();
             this.movieAPIKey = apiKey;
         }
@@ -180,7 +180,7 @@ public class GridFragment extends Fragment {
 
                 // Transformando o inputstream de dados em uma string
                 InputStream inputStream = urlConnection.getInputStream();
-                StringBuffer buffer = new StringBuffer();
+                StringBuilder stringBuilder = new StringBuilder();
                 if (inputStream == null) {
                     // Nothing to do.
                     return null;
@@ -190,14 +190,14 @@ public class GridFragment extends Fragment {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     // Inserindo \n para facilitar a leitura
-                    buffer.append(line + "\n");
+                    stringBuilder.append(line + "\n");
                 }
 
-                if (buffer.length() == 0) {
+                if (stringBuilder.length() == 0) {
                     // Sem dados recebidos
                     return null;
                 }
-                movieJsonStr = buffer.toString();
+                movieJsonStr = stringBuilder.toString();
 
                 Log.v(TAG, "Movie JSON String" + movieJsonStr);
             } catch (IOException e) {
@@ -246,14 +246,18 @@ public class GridFragment extends Fragment {
          * @param parameters parâmetros a serem usados na URL
          * @return a URL de busca dos filme, de acordo com a ordenação escolhida
          * @throws MalformedURLException
+         * #TODO implementar infinite scroll passando o número da página a ser buscada pela api
          */
         private URL getApiUrl(String[] parameters) throws MalformedURLException {
             final String TMDB_BASE_URL = "https://api.themoviedb.org/3/discover/movie?";
             final String SORT_BY_PARAM = "sort_by";
             final String API_KEY_PARAM = "api_key";
+            final String NO_ADULTS_PARAM = "include_adult";
+            final String PAGE_PARAM = "page";
 
             Uri builtUri = Uri.parse(TMDB_BASE_URL).buildUpon()
                     .appendQueryParameter(SORT_BY_PARAM, parameters[0])
+                    .appendQueryParameter(NO_ADULTS_PARAM, "false")
                     .appendQueryParameter(API_KEY_PARAM, this.movieAPIKey)
                     .build();
 

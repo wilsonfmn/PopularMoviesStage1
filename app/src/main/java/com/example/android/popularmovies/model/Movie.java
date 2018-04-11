@@ -4,8 +4,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
-
 /**
  * Created by willf on 25/03/2018.
  */
@@ -27,7 +25,7 @@ public class Movie implements Parcelable {
         // nada
     }
 
-    protected Movie(Parcel in) {
+    private Movie(Parcel in) {
         movieId = in.readInt();
         originalTitle = in.readString();
         title = in.readString();
